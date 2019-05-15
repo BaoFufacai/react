@@ -50,9 +50,9 @@
     onRejected =typeof onRejected==='function'?onRejected:reason=>{throw reason}
 
     //通用处理函数
-    function handle(callbacks,resolve,reject) {
+    function handle(callback,resolve,reject) {
       try {
-        const result=callbacks(self.data)
+        const result=callback(self.data)
         if(result instanceof Promise){
           result.then(resolve ,reject)
         }else {
@@ -67,13 +67,13 @@
       Promise2 =new Promise((resolve,reject)=>{
         //立即异步调用成功回调
         setTimeout(()=>{
-          handle(callbacks,resolve,reject)
+          handle(onResolved,resolve,reject)
         })
       })
     }else if(status==='rejected'){
       Promise2=new Promise((resolve,reject)=>{
         setTimeout(()=>{
-          handle(callbacks,resolve,reject)
+          handle(onRejected,resolve,reject)
         })
       })
 
@@ -119,34 +119,35 @@
     return new Promise((resolve,reject)=>{
       reject(reason)
     })
-
   }
-  //给所有的promise调用返回
-  Promise.prototype.all=function (promises) {
-    const length=promises.length
+  Promise.all = function (promises) {
+
+    const length = promises.length // 所有promies个数
     let resolvedCount = 0 // 保存已成功promise的个数
-    const value=new Array(length) // 保存所有promise成功数据的数组
-    return new Promise((resolve,reject)=>{
-      //遍历所有Promise对象
-      promises.forEach((p,index)=>{
+    const values = new Array(length) // 保存所有promise成功数据的数组
+
+    return new Promise((resolve, reject) => {
+      // 遍历所有promises
+      promises.forEach((p, index) => {
         // promises数组中的元素可能不是promise
         Promise.resolve(p).then(
-          value=>{
+          value => {
             // 保存成功的数据
             values[index] = value
             resolvedCount++
-            //// 当所有promise都成功了
+            // 当所有promise都成功了
             if (resolvedCount===length) {
               resolve(values)
             }
+          },
+          reason => {
+            reject(reason)
           }
-        reason => {
-          reject(reason)
-        }
         )
       })
     })
   }
+
 window.Promise=Promise
 })(window)
 

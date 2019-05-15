@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@antv/data-set": "^0.10.2",
-    "antd": "^3.17.0",
+    "antd": "^3.18.1",
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.11.0",
     "bizcharts": "^3.5.2",
@@ -31,9 +31,9 @@
     "store": "^2.0.12"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -50,5 +50,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }
