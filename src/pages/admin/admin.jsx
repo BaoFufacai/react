@@ -1,7 +1,7 @@
 import React,{Component} from "react";
 import {Redirect,Route,Switch} from 'react-router-dom'
 import { Layout } from 'antd';
-import memoryUtils from '../../utils/memoryUtils'
+import {connect} from 'react-redux'
 import LeftNav from '../../components/left-nav/left-nav'
 import Category from '../category/category'
 import Line from '../charts/line'
@@ -16,10 +16,10 @@ import User from '../user/user'
 const {  Footer, Sider, Content } = Layout
 
 //
-export default class Admin extends Component{
+ class Admin extends Component{
   render() {
     //读取用户数据
-    const user=memoryUtils.user
+    const user = this.props.user
     //判断有内有登录
     if(!user||!user._id){
       return <Redirect  to='/login'/>
@@ -31,7 +31,7 @@ export default class Admin extends Component{
           </Sider>
           <Layout>
             <Header>Header</Header>
-            <Content style={{backgroundColor: '#fff'}}>
+            <Content style={{margin:20, backgroundColor: '#fff'}}>
               <Switch>
                 <Route path='/home' component={Home}/>
                 <Route path='/category' component={Category}/>
@@ -51,3 +51,8 @@ export default class Admin extends Component{
   }
 
 }
+
+export default connect(
+  state=>({user:state.user}),
+  {}
+)(Admin)

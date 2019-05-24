@@ -4,6 +4,7 @@ const MenuLit=[
     title:'首页',
     key:'/home',
     icon:'homo',
+    isPublic:true,//公开的
   },
   {
     title:'商品',

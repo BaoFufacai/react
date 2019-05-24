@@ -10,7 +10,7 @@ export default {
 
   //读取数据
   getUser(){
-    return store.get(USER_KEY)
+    return store.get(USER_KEY)||{}
   },
   //删除数据
   removeUser(){
